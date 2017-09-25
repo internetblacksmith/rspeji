@@ -1,0 +1,18 @@
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  Enabled: true
+# Allow classes longer than 100 lines of code
+ClassLength:
+  Max: 250 # or whatever ends up being appropriate
+
+Metrics/LineLength:
+  Max: 100
+  # To make it possible to copy or click on URIs in the code, we allow lines
+  # containing a URI to be longer than Max.
+  AllowHeredoc: true
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+AllCops:
+  TargetRubyVersion: 2.3
