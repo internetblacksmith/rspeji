@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/emoji.rb'
+
+@delimeter_length = 20
+
+def title_line(title)
+  padding = @delimeter_length - 3 - title.length
+  "== #{title} " + ("=" * padding) + "\n"
+end
+
+def end_line
+  "=" * @delimeter_length
+end
+
+table = Emoji.list.map do |emoji, value|
+          title_line(emoji) +
+          "passed:  #{value[0]}\n" +
+          "pending: #{value[1]}\n" +
+          "failed:  #{value[2]}"
+        end
+
+table << end_line
+
+puts table.join("\n")
