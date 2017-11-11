@@ -13,4 +13,6 @@ Gem::Specification.new do |spec|
   spec.rubygems_version           = %q{2.5.1}
   spec.summary                    = %q{Emoji!!}
   spec.license                    = "MIT"
+
+  spec.add_runtime_dependency "rspec-core", ">= 3.0"
 end
