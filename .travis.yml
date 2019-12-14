@@ -1,11 +1,13 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.4
   - 2.5
+  - 2.6
+  - 2.7
 gemfile:
   - gemfiles/rspec_3_7.gemfile
   - gemfiles/rspec_3_8.gemfile
+  - gemfiles/rspec_3_9.gemfile
 before_script:
   - cd example && bundle install --quiet && cd ..
 script:
