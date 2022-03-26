@@ -12,12 +12,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["2.6", "2.7", "3.0"]
+        ruby: ["2.7", "3.0", "3.1"]
         gemfile:
-          - gemfiles/rspec_3_7.gemfile
           - gemfiles/rspec_3_8.gemfile
           - gemfiles/rspec_3_9.gemfile
           - gemfiles/rspec_3_10.gemfile
+          - gemfiles/rspec_3_11.gemfile
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
