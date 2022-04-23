@@ -29,3 +29,21 @@ with a specific emojiset:
 ````
 EMOJI_SPEC=cats rspec --format Rspeji
 ````
+
+Available Emoji sets:
+
+| EMOJI_SPEC | Passed | Skipped | Failed |
+|------------|:------:|:-------:|:------:|
+| smiley     | 😃     | 😰      | 😡    |
+| heart      | 💚     | 💙      | 💔    |
+| smiley2    | 😍     | 😩      | 😭 🔫    |
+| hand       | 👍     | 👋      | 👎    |
+| moon       | 🌝     | 🌓      | 🌚    |
+| buildings  | 🏩     | 🏫      | 🏥    |
+| woman      | 🙆     | 🙋      | 🙍    |
+| stock      | 📈     | 📊      | 📉    |
+| monkey     | 🙈     | 🙉      | 🙊    |
+| cats       | 😸     | 🙀      | 😾    |
+| smell      | 🌺     | 👃      | 💩    |
+| fruit      | 🍏     | 🍋      | 🍎    |
+| speach     | 💭     | 💬      | 🗯    |
