@@ -2,7 +2,7 @@
 # Emoji class
 class Emoji
   attr_reader :selected_set
-  # Constant tih all the emoji sets
+  # Constant with all the emoji sets
   LIST = {
     smiley:     ["😃 ", "😰 ", "😡 "],
     heart:      ["💚 ", "💙 ", "💔 "],

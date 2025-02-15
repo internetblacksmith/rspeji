@@ -1,5 +1,5 @@
 # Rspeji
-A rspec emoji formatter, for when you need more fun in your test's
+A rspec emoji formatter, for when you need more fun in your tests
 
 Inspired by:
 https://gist.github.com/meesterdude/6112257
@@ -17,7 +17,7 @@ gem "rspeji"
 ````
 in your Gemfile.
 
-once installed running rspeji from the terminal will print a list off all the available sets.
+once installed running rspeji from the terminal will print a list of all the available sets.
 
 usage:
 with a random emoji set:
