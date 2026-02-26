@@ -1,0 +1,64 @@
+name: Check Ruby Version
+
+on:
+  schedule:
+    - cron: '0 10 15 1 *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest stable Ruby version
+        id: latest
+        run: |
+          latest=$(curl -sf https://endoflife.date/api/ruby.json \
+            | jq -r '[.[] | select(.lts != false)] | .[0].cycle')
+          echo "version=$latest" >> "$GITHUB_OUTPUT"
+          echo "Latest stable Ruby cycle: $latest"
+
+      - name: Get current CI matrix versions
+        id: matrix
+        run: |
+          versions=$(grep -oP '"[0-9]+\.[0-9]+"' .github/workflows/ci.yml \
+            | head -4 | tr -d '"' | sort -V | tr '\n' ' ')
+          highest=$(echo "$versions" | awk '{print $NF}')
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+          echo "highest=$highest" >> "$GITHUB_OUTPUT"
+          echo "Current CI versions: $versions"
+          echo "Highest: $highest"
+
+      - name: Check for EOL versions
+        id: eol
+        run: |
+          eol_versions=""
+          for v in $(grep -oP '"[0-9]+\.[0-9]+"' .github/workflows/ci.yml | head -4 | tr -d '"'); do
+            eol=$(curl -sf "https://endoflife.date/api/ruby/${v}.json" \
+              | jq -r '.eol')
+            if [ "$eol" != "false" ] && [ "$(date +%Y-%m-%d)" \> "$eol" ]; then
+              eol_versions="$eol_versions $v (EOL: $eol)"
+            fi
+          done
+          echo "eol=$eol_versions" >> "$GITHUB_OUTPUT"
+          echo "EOL versions:${eol_versions:- none}"
+
+      - name: Create issue if update needed
+        if: steps.latest.outputs.version != '' && steps.matrix.outputs.highest != steps.latest.outputs.version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="ci: add Ruby ${{ steps.latest.outputs.version }} to CI matrix"
+          existing=$(gh issue list --label ci --state open --search "$title" --json number --jq 'length')
+          if [ "$existing" -eq 0 ]; then
+            body="A new Ruby version is available."
+            body="$body\n\n**Latest stable:** ${{ steps.latest.outputs.version }}"
+            body="$body\n**Current CI matrix:** ${{ steps.matrix.outputs.versions }}"
+            if [ -n "${{ steps.eol.outputs.eol }}" ]; then
+              body="$body\n**EOL versions to drop:**${{ steps.eol.outputs.eol }}"
+            fi
+            echo -e "$body" | gh issue create --title "$title" --label ci --body-file -
+          else
+            echo "Issue already exists, skipping."
+          fi
